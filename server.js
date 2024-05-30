@@ -1,6 +1,13 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
+// Ruta para servir el archivo index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// API dummy para devolver la disponibilidad
 app.get('/api/disponibilidad', (req, res) => {
   const availability = {
     fecha: "2023-05-20",
@@ -25,8 +32,10 @@ app.get('/api/disponibilidad', (req, res) => {
   res.json(availability);
 });
 
-app.use(express.static('public'));
+// Middleware para servir archivos estáticos (si tienes otros archivos estáticos)
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Iniciar el servidor
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
